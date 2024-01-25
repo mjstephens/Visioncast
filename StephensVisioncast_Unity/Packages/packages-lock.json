@@ -19,7 +19,7 @@
       "dependencies": {}
     },
     "com.gg.rpg.kcc": {
-      "version": "file:KCCC",
+      "version": "file:KCC",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
