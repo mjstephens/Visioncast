@@ -2,8 +2,8 @@
     "name": "Stephens.Input",
     "rootNamespace": "Stephens.Input",
     "references": [
-        "Unity.InputSystem",
-        "Stephens.Tick"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:f3be8476449654b7786f9bd21f5e2dc7"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -13,9 +13,7 @@
         "nunit.framework.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": [
-        "UNITY_INCLUDE_TESTS"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }
