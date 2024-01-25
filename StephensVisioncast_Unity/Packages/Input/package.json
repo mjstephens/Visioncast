@@ -1,0 +1,11 @@
+{
+  "name": "com.gg.rpg.input",
+  "version": "1.0.0",
+  "displayName": "Input",
+  "description": "Package for basic input functionality.",
+  "unity": "2019.4",
+  "author": {
+    "name": "Michael Stephens",
+    "email": "mstephens.dev@gmail.com"
+  }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "Stephens.Player",
+    "rootNamespace": "Stephens.Player",
+    "references": [
+        "Unity.InputSystem",
+        "Unity.Cinemachine",
+        "Asset.KCC",
+        "Stephens.Tick",
+        "Stephens.Utility",
+        "Stephens.Input",
+        "Stephens.Camera",
+        "Stephens.Sensors",
+        "Stephens.AI",
+        "KCC"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
