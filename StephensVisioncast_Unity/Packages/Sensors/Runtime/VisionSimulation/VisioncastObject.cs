@@ -69,6 +69,11 @@ namespace Stephens.Sensors
             }
         }
 
+        public virtual void Seen()
+        {
+            
+        }
+
         #endregion VISION
 
 

@@ -36,7 +36,7 @@ namespace Stephens.AI
         protected virtual void FilterVisionObjectsForInteraction(DataVisioncastResult data)
         {
             // If there are no objects visible we can get out
-            if (data.Objects == null)
+            if (data == null)
             {
                 ClearVisionData();
                 return;
@@ -75,6 +75,11 @@ namespace Stephens.AI
             _keyObject = null;
             foreach (DataVisionSeenObject obj in _filteredVisionObjects)
             {
+                if (obj.IsVisible)
+                {
+                    obj.ResultObject.Seen();
+                }
+                
                 if (obj.IsVisible && obj.Angle < closestAngle)
                 {
                     closestAngle = obj.Angle;

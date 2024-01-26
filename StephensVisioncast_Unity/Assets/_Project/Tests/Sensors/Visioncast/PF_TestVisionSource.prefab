@@ -58,13 +58,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4eddf7681cc944c1fb5ef7397ac2b4ae, type: 2}
+  - {fileID: 2100000, guid: 8717dcc1410544971aeb52ef678c474d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -144,13 +141,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3c9ad66f585bfb341b5f346a1ebd06b7, type: 2}
+  - {fileID: 2100000, guid: 9a4f218ecb7d544a0a7d10288f87c765, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,13 +224,10 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4eddf7681cc944c1fb5ef7397ac2b4ae, type: 2}
+  - {fileID: 2100000, guid: 8717dcc1410544971aeb52ef678c474d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -269,8 +260,8 @@ GameObject:
   - component: {fileID: 1205598251908463225}
   - component: {fileID: 1205598251908463222}
   - component: {fileID: 1205598251908463223}
-  - component: {fileID: 4419580784429770609}
-  - component: {fileID: 7483027019220050321}
+  - component: {fileID: 5779839198706560815}
+  - component: {fileID: -293562027978551802}
   m_Layer: 0
   m_Name: PF_TestVisionSource
   m_TagString: Untagged
@@ -321,9 +312,6 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -349,7 +337,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4419580784429770609
+--- !u!114 &5779839198706560815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,15 +346,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1205598251908463221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 067f2e08d5894d8a9cabf55e2e1df44f, type: 3}
+  m_Script: {fileID: 11500000, guid: 72a6e853fdd64465c9d215dcb5383196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 128
-  _range: 20
-  _fieldOfViewRange: {x: 30, y: 30}
---- !u!114 &7483027019220050321
+  _dataInteraction: {fileID: 11400000, guid: 0146b8923bedb42db81095eca6f0f228, type: 2}
+--- !u!114 &-293562027978551802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -375,6 +359,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1205598251908463221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 952822e258d34a869747ac9d22a824da, type: 3}
+  m_Script: {fileID: 11500000, guid: fbeb0fdfc945941da9f816f9443e1772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _prefabLineDebug: {fileID: 311802250476797536, guid: cb7dc61e90e6c4c3789849003e59d5d3,
+    type: 3}
+  _gizmos: 1
+  _lineRenderers: 1

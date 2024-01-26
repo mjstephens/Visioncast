@@ -5,10 +5,13 @@ using UnityEngine;
 namespace Stephens.Sensors
 {
     [RequireComponent(typeof(IVisionSource))]
-    public sealed class DebugVisionSource : MonoBehaviour, ITickable
+    public sealed class DebugVisioncastSource : MonoBehaviour, ITickable
     {
         #region VARIABLES
 
+        [Header("References")]
+        [SerializeField] private GameObject _prefabLineDebug;
+        
         [Header("Draw Options")]
         [SerializeField] private bool _gizmos = true;
         [SerializeField] private bool _lineRenderers;
@@ -45,7 +48,10 @@ namespace Stephens.Sensors
 
         void ITickable.Tick(float delta)
         {
-            DrawLine(_source.Position, _source.Heading * _source.Range, Color.yellow);
+            ClearLines();
+
+            Vector3 headingEnd = _source.Position + (_source.Heading * _source.Range);
+            DrawLine(_source.Position, headingEnd, Color.yellow);
             if (_source.LastResults == null)
                 return;
 
@@ -78,7 +84,12 @@ namespace Stephens.Sensors
 
             if (_lineRenderers)
             {
-               // DebugLineInstance line = GetNextAvailableLine();
+               DebugLineInstance line = GetNextAvailableLine();
+               if (line)
+               {
+                   line.Activate(start, end, color);
+                   line.enabled = true;
+               }
             }
         }
 
@@ -87,10 +98,36 @@ namespace Stephens.Sensors
 
         #region UTILITY
 
-        // private DebugLineInstance GetNextAvailableLine()
-        // {
-        //     
-        // }
+        private DebugLineInstance GetNextAvailableLine()
+        {
+            // Find first inactive line
+            DebugLineInstance next = null;
+            foreach (DebugLineInstance line in _debugLines)
+            {
+                if (!line.enabled)
+                {
+                    next = line;
+                    break;
+                }
+            }
+            
+            // If needed, create new line
+            if (!next && _prefabLineDebug)
+            {
+                next = Instantiate(_prefabLineDebug, transform).GetComponent<DebugLineInstance>();
+                _debugLines.Add(next);
+            }
+
+            return next;
+        }
+
+        private void ClearLines()
+        {
+            foreach (DebugLineInstance line in _debugLines)
+            {
+                line.enabled = false;
+            }
+        }
 
         #endregion UTILITY
     }

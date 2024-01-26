@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Stephens.Sensors
@@ -13,6 +14,16 @@ namespace Stephens.Sensors
 
 
         #region INITIALIZATION
+
+        private void OnEnable()
+        {
+            _line.enabled = true;
+        }
+
+        private void OnDisable()
+        {
+            _line.enabled = false;
+        }
 
         internal void Activate(Vector3 start, Vector3 end, Color color)
         {

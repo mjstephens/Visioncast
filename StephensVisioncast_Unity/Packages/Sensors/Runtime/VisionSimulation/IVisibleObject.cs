@@ -22,5 +22,12 @@ namespace Stephens.Sensors
         Bounds WorldBounds { get; }
         
         #endregion PROPERTIES
+
+
+        #region METHODS
+
+        void Seen();
+
+        #endregion METHODS
     }
 }
