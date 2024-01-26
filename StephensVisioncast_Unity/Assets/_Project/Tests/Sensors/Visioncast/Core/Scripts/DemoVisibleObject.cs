@@ -1,7 +1,7 @@
 using Stephens.Sensors;
 using UnityEngine;
 
-namespace VisioncastDemo
+namespace VisioncastTests.Core
 {
     public class DemoVisibleObject : VisioncastObject
     {

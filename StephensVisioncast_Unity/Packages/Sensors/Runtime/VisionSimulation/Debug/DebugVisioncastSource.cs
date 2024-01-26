@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Stephens.Tick;
+using Stephens.Utility;
 using UnityEngine;
 
 namespace Stephens.Sensors
@@ -11,6 +12,7 @@ namespace Stephens.Sensors
 
         [Header("References")]
         [SerializeField] private GameObject _prefabLineDebug;
+        [SerializeField] private MeshFilter _coneRend;
         
         [Header("Draw Options")]
         [SerializeField] private bool _gizmos = true;
@@ -18,7 +20,8 @@ namespace Stephens.Sensors
         
         public TickGroup TickGroup => TickGroup.Debug;
 
-        private IVisionSource _source;
+        private IVisionSource _source;        
+        private ConeMesh _cone;
         private readonly List<DebugLineInstance> _debugLines = new();
         
         #endregion VARIABLES
@@ -29,6 +32,14 @@ namespace Stephens.Sensors
         private void Awake()
         {
             _source = GetComponent<IVisionSource>();
+            _cone = new ConeMesh();
+            _coneRend.mesh = _cone.CreateConeMesh(
+                "cone",
+                40,
+                Vector3.zero, 
+                Quaternion.Euler(_source.Heading),
+                _source.FieldOfViewRange.x,
+                _source.FieldOfViewRange.y);
         }
 
         private void OnEnable()
@@ -98,6 +109,12 @@ namespace Stephens.Sensors
 
         #region UTILITY
 
+        public void Toggle(bool on)
+        {
+            _gizmos = on;
+            _lineRenderers = on;
+        }
+        
         private DebugLineInstance GetNextAvailableLine()
         {
             // Find first inactive line
