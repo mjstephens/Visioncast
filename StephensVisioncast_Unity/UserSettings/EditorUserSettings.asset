@@ -21,6 +21,18 @@ EditorUserSettings:
       value: 545457545c025c5a090a592348770b41454f1a7e752d7167742f1962b4b1633c
       flags: 0
     RecentlyUsedSceneGuid-5:
+      value: 5452045e5102080c085e5871457a5b4447164d287a7e7e66292c4861b7b13061
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 0602025652050c0f090c5473152206444f15412979792466792d4e35b1b2676d
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 01035755070d585e0e570f2142270d441416497c2d2c22647d7d4932b5b3326b
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 5607015256035008555b597416775d1242154d282a2977337d7c1e61bbe46539
+      flags: 0
+    RecentlyUsedSceneGuid-9:
       value: 5600075206530d0f595a5c751477094141161b2c797a7464782f4864e7e43060
       flags: 0
     vcSharedLogLevel:
@@ -41,4 +53,3 @@ EditorUserSettings:
   m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 1
   m_ArtifactGarbageCollection: 1
-  m_CompressAssetsOnImport: 1

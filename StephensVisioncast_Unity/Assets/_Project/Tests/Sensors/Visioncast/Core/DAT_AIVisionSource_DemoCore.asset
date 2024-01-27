@@ -15,5 +15,5 @@ MonoBehaviour:
   VisionLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  VisionRange: 20
+  VisionRange: 25
   FieldOfViewRange: {x: 30, y: 30}

@@ -49,7 +49,6 @@ namespace Stephens.Sensors
         protected override void ExecuteScheduledRequests()
         {
             ExecuteRaycasts();
-
             ClearCaches();
         }
         

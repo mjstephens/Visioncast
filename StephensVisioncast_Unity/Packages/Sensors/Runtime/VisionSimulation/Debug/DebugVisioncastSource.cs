@@ -32,14 +32,19 @@ namespace Stephens.Sensors
         private void Awake()
         {
             _source = GetComponent<IVisionSource>();
-            _cone = new ConeMesh();
-            _coneRend.mesh = _cone.CreateConeMesh(
-                "cone",
-                40,
-                Vector3.zero, 
-                Quaternion.Euler(_source.Heading),
-                _source.FieldOfViewRange.x,
-                _source.FieldOfViewRange.y);
+
+            if (_coneRend)
+            {
+                _cone = new ConeMesh();
+                _coneRend.mesh = _cone.CreateConeMesh(
+                    "cone",
+                    40,
+                    Vector3.zero, 
+                    Quaternion.Euler(_source.Heading),
+                    _source.FieldOfViewRange.x,
+                    _source.FieldOfViewRange.y);
+            }
+            
         }
 
         private void OnEnable()

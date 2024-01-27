@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 7190482721456820274}
-  _prefabKCC: {fileID: 1398904762131290, guid: dd300ab104c07418389740bd64c19cd3, type: 3}
-  _prefabVisionSource: {fileID: 0}
+  _prefabKCC: {fileID: 1398904762131290, guid: ba3bc297660114bc396df3449dc71c46, type: 3}
+  _interactionSource: {fileID: 0}
 --- !u!114 &5614607424253989232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Actions: {fileID: -944628639613478452, guid: 57399efb2c498427782330d682131480,
     type: 3}
   m_NotificationBehavior: 3
-  m_UIInputModule: {fileID: 0}
+  m_UIInputModule: {fileID: 881576625560455642}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_DefaultControlScheme: 
   m_DefaultActionMap: Pointer
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 222594357595207910}
 --- !u!114 &5841125773972850318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,13 +154,31 @@ PrefabInstance:
     - target: {fileID: 6378322835070699716, guid: 62e7b20f991a24c7c8b3362c606b1164,
         type: 3}
       propertyPath: m_Name
-      value: PF_PlayerKCCCamera
+      value: PF_PlayerCamera
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62e7b20f991a24c7c8b3362c606b1164, type: 3}
+--- !u!20 &222594357595207910 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8277990325105254267, guid: 62e7b20f991a24c7c8b3362c606b1164,
+    type: 3}
+  m_PrefabInstance: {fileID: 8212177804464433053}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &881576625560455642 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9064753676960312903, guid: 62e7b20f991a24c7c8b3362c606b1164,
+    type: 3}
+  m_PrefabInstance: {fileID: 8212177804464433053}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7190482721456820274 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1314556054259349423, guid: 62e7b20f991a24c7c8b3362c606b1164,

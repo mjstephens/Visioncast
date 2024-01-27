@@ -4,7 +4,7 @@
     "references": [
         "Unity.InputSystem",
         "Unity.Cinemachine",
-        "Stephens.Tick"
+        "GG.Tick"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

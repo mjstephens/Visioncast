@@ -3,7 +3,7 @@
     "rootNamespace": "Stephens.Sensors",
     "references": [
         "Unity.Burst",
-        "Stephens.Tick",
+        "GG.Tick",
         "Stephens.Utility"
     ],
     "includePlatforms": [],

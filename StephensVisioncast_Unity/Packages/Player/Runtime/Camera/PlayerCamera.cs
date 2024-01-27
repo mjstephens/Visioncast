@@ -1,7 +1,9 @@
 using Stephens.Camera;
+using Stephens.Input;
 using Stephens.KCC;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Stephens.Player
 {
@@ -9,11 +11,17 @@ namespace Stephens.Player
     {
         #region VARIABLES
 
+        [Header("Values")]
+        [SerializeField] private KCCCameraViewState _startingViewState;
+        [SerializeField] private bool _allowViewStateToggle = true;
+        
         [Header("References")] 
         [SerializeField] private GameCamera _gameCamera;
+        [SerializeField] private UICamera _uiCamera;
         [SerializeField] private VirtualCameraKCCFP _vCamFirstPerson;
         [SerializeField] private VirtualCameraKCCTP _vCamThirdPerson;
 
+        internal GameCamera GameCamera => _gameCamera;
         internal VirtualCameraKCC ActiveVCam => _activeCamera;
         internal DataInputValuesKCCCamera DataInputCamera { get; set; }
         internal KCCCameraViewState CameraViewState { get; private set; }
@@ -27,8 +35,12 @@ namespace Stephens.Player
 
         private void Awake()
         {
-            // Default to first person
-            SetActiveCamera(KCCCameraViewState.FirstPerson);
+            SetActiveCamera(_startingViewState);
+        }
+
+        internal void SetInput(PlayerInput input)
+        {
+            _uiCamera.SimulatedPointer.Init(input, DataPointerType.Simulated);
         }
 
         internal void AssignKCC(IKCCOperator player, ControllerKCC controller)
@@ -50,7 +62,7 @@ namespace Stephens.Player
         internal void ReceiveCameraInput(DataInputValuesKCCCamera inputData, float delta)
         {
             // Handle camera toggling
-            if (inputData.ViewToggled.Started)
+            if (inputData.ViewToggled.Started && _allowViewStateToggle)
             {
                 SetActiveCamera(ToggleViewState());
             }

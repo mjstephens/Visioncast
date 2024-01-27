@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Project/Tests/Sensors/Visioncast/Core/SCN_SensorsTest_Visioncast.unity
+    path: Assets/_Project/Tests/Sensors/Visioncast/Core/SCN_VCTest_Core.unity
     guid: 5134cfd44407d4617acf52245f57edd8
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9f98a856d62674ecb83d078f6b7b0645,

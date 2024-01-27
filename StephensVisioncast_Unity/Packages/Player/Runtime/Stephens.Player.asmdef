@@ -5,7 +5,7 @@
         "Unity.InputSystem",
         "Unity.Cinemachine",
         "Asset.KCC",
-        "Stephens.Tick",
+        "GG.Tick",
         "Stephens.Utility",
         "Stephens.Input",
         "Stephens.Camera",

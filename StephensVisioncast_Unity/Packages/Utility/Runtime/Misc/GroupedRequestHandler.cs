@@ -4,8 +4,8 @@ using Stephens.Tick;
 namespace Stephens.Utility
 {
     /// <summary>
-    /// A GRH can be subscribed to by listeners of type TListener - it will do some processing, then inform listeners of the results. This
-    /// base class helps with grouping and then re-routing results to the correct listeners
+    /// A GRH can be subscribed to by listeners of type TListener - it will do some processing, then inform listeners of
+    /// the results. This base class helps with grouping and then re-routing results to the correct listeners.
     /// </summary>
     public abstract class GroupedRequestHandler<TListener, TRequest> : ITickable
     {

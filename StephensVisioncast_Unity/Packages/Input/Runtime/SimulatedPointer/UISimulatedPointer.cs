@@ -20,7 +20,6 @@ namespace Stephens.Input
         [Header("References")]
         [SerializeField] private RectTransform _pointer;
         [SerializeField] private RectTransform _pointerOverlay;
-        [SerializeField] private EventSystem _eventSystem;
         [SerializeField] private Camera _uiCamera;
         [SerializeField] private Image _ringOuter;
         [SerializeField] private Image _iconInner;
@@ -50,19 +49,18 @@ namespace Stephens.Input
         private DataPointerType _type;
         private readonly List<IInputReceiver<DataInputValuesPointer>> _receivers = new();
         private Vector2 _prevEventPos;
+        private EventSystem _eventSystem;
 
         #endregion VARIABLES
 
 
         #region INITIALIZATION
 
-        private void Awake()
-        {
-            _eventData = new PointerEventData(_eventSystem);
-        }
-
         public void Init(PlayerInput input, DataPointerType type)
         {
+            _eventSystem = GetComponentInParent<EventSystem>();
+            _eventData = new PointerEventData(_eventSystem);
+            
             input.onActionTriggered += OnActionTriggered;
             _deltaActionID = input.actions["Delta"].id;
             _scrollActionID = input.actions["Scroll"].id;
@@ -82,9 +80,11 @@ namespace Stephens.Input
                     Cursor.lockState = CursorLockMode.Locked;
                     break;
                 case DataPointerType.System:
-                    _pointerOverlay.gameObject.SetActive(false); 
-                    if ((_eventSystem.currentInputModule as InputSystemUIInputModule) != null)
+                    _pointerOverlay.gameObject.SetActive(false);
+                    if (_eventSystem.currentInputModule as InputSystemUIInputModule != null)
+                    {
                         (_eventSystem.currentInputModule as InputSystemUIInputModule).AssignDefaultActions();
+                    }
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
                     break;
@@ -155,9 +155,9 @@ namespace Stephens.Input
 
         #region INPUT
 
-        internal void UpdatePointer(float deltaTime)
+        public void UpdatePointer(float deltaTime)
         {
-            if (_type != DataPointerType.Simulated)
+            if (!gameObject.activeSelf || _type != DataPointerType.Simulated)
                 return;
             
             // Move pointer

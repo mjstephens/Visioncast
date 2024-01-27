@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Stephens.AI
 {
+    /// <summary>
+    /// Source with complex filtering, useful as a base for AI or player components
+    /// </summary>
     public class VisionSource : VisioncastSource
     {
         #region VARIABLES

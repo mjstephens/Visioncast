@@ -13,7 +13,7 @@ namespace Stephens.Player
         [Header("References")]
         [SerializeField] private PlayerCamera _playerCamera;
         [SerializeField] private GameObject _prefabKCC;
-        [SerializeField] protected GameObject _prefabVisionSource;
+        [SerializeField] private PlayerInteraction _interactionSource;
         
         // Camera properties
         public VirtualCameraKCC ActivePlayerCamera => _playerCamera.ActiveVCam;
@@ -52,11 +52,21 @@ namespace Stephens.Player
             _kccController.Operator = this;
             
             // Tell the camera about our KCC
+            _playerCamera.SetInput(_playerInput);
             _playerCamera.AssignKCC(this, _kccController);
+
+            // Initialize interaction source
+            if (_interactionSource)
+            {
+                _interactionSource.Init(_playerCamera);
+            }
             
             // Init KCC animator
             _kccAnimator = _kccController.transform.GetComponentInChildren<DefaultKCCAnimator>();
-            _kccAnimator.Init(_kccController.AnimatorProvider);
+            if (_kccAnimator)
+            {
+                _kccAnimator.Init(_kccController.AnimatorProvider);
+            }
         }
 
         #endregion INITIALIZATION
