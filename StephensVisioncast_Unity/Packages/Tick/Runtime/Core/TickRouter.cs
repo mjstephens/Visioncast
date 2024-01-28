@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-namespace Stephens.Tick
+namespace GalaxyGourd.Tick
 {
     /// <summary>
     /// Collates tick callbacks
@@ -12,27 +11,27 @@ namespace Stephens.Tick
         #region VARIABLES
 
         // Updates
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesUpdate = new();
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesFixedUpdate = new();
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesLateUpdate = new();
+        private static TickCollection _collectionUpdate;
+        private static TickCollection _collectionFixedUpdate;
+        private static TickCollection _collectionLateUpdate;
         
         // Alternate updates - A is ticked, then B the next update, etc
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesAltUpdateA = new();
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesAltUpdateB = new();
+        private static TickCollection _collectionAltUpdateA;
+        private static TickCollection _collectionAltUpdateB;
         private static bool _altFlagUpdate;
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesAltFixedUpdateA = new();
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesAltFixedUpdateB = new();
+        private static TickCollection _collectionAltFixedUpdateA;
+        private static TickCollection _collectionAltFixedUpdateB;
         private static bool _altFlagFixedUpdate;
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesAltLateUpdateA = new();
-        private static readonly Dictionary<TickGroup, List<ITickable>> _tickablesAltLateUpdateB = new();
+        private static TickCollection _collectionAltLateUpdateA;
+        private static TickCollection _collectionAltLateUpdateB;
         private static bool _altFlagLateUpdate;
 
         // Custom
-        private static readonly TickCustom _tickablesTenthSecond = new(0.1f);
-        private static readonly TickCustom _tickablesHalfSecond = new(0.5f);
-        private static readonly TickCustom _tickablesFullSecond = new(1f);
-        private static readonly TickCustom _tickablesTwoSeconds = new(2f);
-        private static readonly TickCustom _tickablesFiveSeconds = new(5f);
+        private static TickCustom _collectionTenthSecond;
+        private static TickCustom _collectionHalfSecond;
+        private static TickCustom _collectionFullSecond;
+        private static TickCustom _collectionTwoSeconds;
+        private static TickCustom _collectionFiveSeconds;
 
         private static readonly List<ITickable> _queueAdd = new();
         private static readonly List<ITickable> _queueRemove = new();
@@ -46,22 +45,9 @@ namespace Stephens.Tick
         private static void OnSubsystemRegistration()
         {
             ClearAllTickables();
-            
-            // Load project-defined tick groups, compile into runtime groups
-            DataConfigTickList groups = Resources.Load<DataConfigTickList>("DAT_TickGroups");
-            foreach (string group in groups.UpdateGroups)
-            {
-                _tickablesUpdate1.Add(new DataTickGroup()
-                {
-                    Interval = TickInterval.Update,
-                    Key = group
-                }, new List<ITickable>());
-            }
+            ConstructTickCollections(Resources.Load<DataConfigTickCollections>("DAT_TickCollections"));
         }
         
-        private static readonly Dictionary<DataTickGroup, List<ITickable>> _tickablesUpdate1 = new();
-
-
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void OnAfterSceneLoad()
         {
@@ -118,15 +104,14 @@ namespace Stephens.Tick
 
         private static void Add(ITickable tickable)
         {
-            Dictionary<TickGroup, List<ITickable>> collection = GetTickCollectionForType(tickable.TickGroup);
-            collection.TryAdd(tickable.TickGroup, new List<ITickable>());
-            collection[tickable.TickGroup].Add(tickable);
+            List<ITickable> collection = GetTickGroupList(tickable.TickGroup);
+            collection?.Add(tickable);
         }
 
         private static void Remove(ITickable tickable)
         {
-            Dictionary<TickGroup, List<ITickable>> collection = GetTickCollectionForType(tickable.TickGroup);
-            collection[tickable.TickGroup].Remove(tickable);
+            List<ITickable> collection = GetTickGroupList(tickable.TickGroup);
+            collection?.Remove(tickable);
         }
 
         #endregion REGISTRATION
@@ -136,16 +121,12 @@ namespace Stephens.Tick
 
         internal static void TickUpdate(float delta)
         {
-            foreach (TickGroup group in _orderedGroupsUpdate)
-            {
-                TickCollection(group,_tickablesUpdate, delta);
-            }
+            _collectionUpdate.Tick(delta);
 
-            // Tick the alternate group
-            foreach (TickGroup group in _altFlagUpdate ? _orderedGroupsAltUpdateA : _orderedGroupsAltUpdateB)
-            {
-                TickCollection(group, _altFlagUpdate ? _tickablesAltUpdateA : _tickablesAltUpdateB, delta);
-            }
+            if (_altFlagUpdate)
+                _collectionAltUpdateA.Tick(delta);
+            else
+                _collectionAltUpdateB.Tick(delta);
 
             _altFlagUpdate = !_altFlagUpdate;
             CheckCustomTicks(delta);
@@ -153,32 +134,24 @@ namespace Stephens.Tick
         
         internal static void TickFixedUpdate(float delta)
         {
-            foreach (TickGroup group in _orderedGroupsFixedUpdate)
-            {
-                TickCollection(group, _tickablesFixedUpdate, delta);
-            }
-            
-            // Tick the alternate group
-            foreach (TickGroup group in _altFlagFixedUpdate ? _orderedGroupsAltFixedUpdateA : _orderedGroupsAltFixedUpdateB)
-            {
-                TickCollection(group,_altFlagFixedUpdate ? _tickablesAltFixedUpdateA : _tickablesAltFixedUpdateB, delta);
-            }
+            _collectionFixedUpdate.Tick(delta);
 
+            if (_altFlagFixedUpdate)
+                _collectionAltFixedUpdateA.Tick(delta);
+            else
+                _collectionAltFixedUpdateB.Tick(delta);
+            
             _altFlagFixedUpdate = !_altFlagFixedUpdate;
         }
         
         internal static void TickLateUpdate(float delta)
         {
-            foreach (TickGroup group in _orderedGroupsLateUpdate)
-            {
-                TickCollection(group, _tickablesLateUpdate, delta);
-            }
+            _collectionLateUpdate.Tick(delta);
 
-            // Tick the alternate group
-            foreach (TickGroup group in _altFlagLateUpdate ? _orderedGroupsAltLateUpdateA : _orderedGroupsAltLateUpdateB)
-            {
-                TickCollection(group,_altFlagLateUpdate ? _tickablesAltLateUpdateA : _tickablesAltLateUpdateB, delta);
-            }
+            if (_altFlagLateUpdate)
+                _collectionAltLateUpdateA.Tick(delta);
+            else
+                _collectionAltLateUpdateB.Tick(delta);
 
             _altFlagLateUpdate = !_altFlagLateUpdate;
             FlushQueued();
@@ -186,55 +159,29 @@ namespace Stephens.Tick
 
         private static void CheckCustomTicks(float delta)
         {
-            if (_tickablesTenthSecond.TickHasElapsed(delta))
+            if (_collectionTenthSecond.TickHasElapsed(0.1f, delta))
             {
-                foreach (TickGroup group in _orderedGroupsCSTTenthSecond)
-                {
-                    TickCollection(group, _tickablesTenthSecond.Tickables, delta);
-                }
+                _collectionTenthSecond.Tick(delta);
             }
             
-            if (_tickablesHalfSecond.TickHasElapsed(delta))
+            if (_collectionHalfSecond.TickHasElapsed(0.5f, delta))
             {
-                foreach (TickGroup group in _orderedGroupsCSTHalfSecond)
-                {
-                    TickCollection(group, _tickablesHalfSecond.Tickables, delta);
-                }
+                _collectionHalfSecond.Tick(delta);
             }
             
-            if (_tickablesFullSecond.TickHasElapsed(delta))
+            if (_collectionFullSecond.TickHasElapsed(1f, delta))
             {
-                foreach (TickGroup group in _orderedGroupsCSTFullSecond)
-                {
-                    TickCollection(group, _tickablesFullSecond.Tickables, delta);
-                }
+                _collectionFullSecond.Tick(delta);
             }
             
-            if (_tickablesTwoSeconds.TickHasElapsed(delta))
+            if (_collectionTwoSeconds.TickHasElapsed(2f, delta))
             {
-                foreach (TickGroup group in _orderedGroupsCSTTwoSeconds)
-                {
-                    TickCollection(group, _tickablesTwoSeconds.Tickables, delta);
-                }
+                _collectionTwoSeconds.Tick(delta);
             }
             
-            if (_tickablesFiveSeconds.TickHasElapsed(delta))
+            if (_collectionFiveSeconds.TickHasElapsed(5f, delta))
             {
-                foreach (TickGroup group in _orderedGroupsCSTFiveSeconds)
-                {
-                    TickCollection(group, _tickablesFiveSeconds.Tickables, delta);
-                }
-            }
-        }
-
-        private static void TickCollection(TickGroup group, Dictionary<TickGroup, List<ITickable>> collection, float delta)
-        {
-            if (!collection.ContainsKey(group))
-                return;
-
-            foreach (ITickable tickable in collection[group])
-            {
-                tickable.Tick(delta);
+                _collectionFiveSeconds.Tick(delta);
             }
         }
 
@@ -243,42 +190,62 @@ namespace Stephens.Tick
 
         #region UTILITY
 
-        private static Dictionary<TickGroup, List<ITickable>> GetTickCollectionForType(TickGroup group)
+        private static void ConstructTickCollections(DataConfigTickCollections data)
         {
-            if (_orderedGroupsUpdate.Contains(group)) return _tickablesUpdate;
-            if (_orderedGroupsAltUpdateA.Contains(group)) return _tickablesAltUpdateA;
-            if (_orderedGroupsAltUpdateB.Contains(group)) return _tickablesAltUpdateB;
-            if (_orderedGroupsFixedUpdate.Contains(group)) return _tickablesFixedUpdate;
-            if (_orderedGroupsAltFixedUpdateA.Contains(group)) return _tickablesAltFixedUpdateA;
-            if (_orderedGroupsAltFixedUpdateB.Contains(group)) return _tickablesAltFixedUpdateB;
-            if (_orderedGroupsLateUpdate.Contains(group)) return _tickablesLateUpdate;
-            if (_orderedGroupsAltLateUpdateA.Contains(group)) return _tickablesAltLateUpdateA;
-            if (_orderedGroupsAltLateUpdateB.Contains(group)) return _tickablesAltLateUpdateB;
-            if (_orderedGroupsCSTTenthSecond.Contains(group)) return _tickablesTenthSecond.Tickables;
-            if (_orderedGroupsCSTHalfSecond.Contains(group)) return _tickablesHalfSecond.Tickables;
-            if (_orderedGroupsCSTFullSecond.Contains(group)) return _tickablesFullSecond.Tickables;
-            if (_orderedGroupsCSTTwoSeconds.Contains(group)) return _tickablesTwoSeconds.Tickables;
-            if (_orderedGroupsCSTFiveSeconds.Contains(group)) return _tickablesFiveSeconds.Tickables;
+            _collectionUpdate = new TickCollection(data.GetUpdateGroups());
+            _collectionFixedUpdate = new TickCollection(data.GetFixedUpdateGroups());
+            _collectionLateUpdate = new TickCollection(data.GetLateUpdateGroups());
+            
+            _collectionAltUpdateA = new TickCollection(data.GetAltUpdateAGroups());
+            _collectionAltUpdateB = new TickCollection(data.GetAltUpdateBGroups());
+            _collectionAltFixedUpdateA = new TickCollection(data.GetAltFixedUpdateAGroups());
+            _collectionAltFixedUpdateB = new TickCollection(data.GetAltFixedUpdateBGroups());
+            _collectionAltLateUpdateA = new TickCollection(data.GetAltLateUpdateAGroups());
+            _collectionAltLateUpdateB = new TickCollection(data.GetAltLateUpdateBGroups());
+            
+            _collectionTenthSecond = new TickCustom(data.GetTimedUpdate100MSGroups());
+            _collectionHalfSecond = new TickCustom(data.GetTimedUpdate500MSGroups());
+            _collectionFullSecond = new TickCustom(data.GetTimedUpdate1SGroups());
+            _collectionTwoSeconds = new TickCustom(data.GetTimedUpdate2SGroups());
+            _collectionFiveSeconds = new TickCustom(data.GetTimedUpdate5SGroups());
+        }
+
+        private static List<ITickable> GetTickGroupList(int key)
+        {
+            foreach (Dictionary<int, List<ITickable>> group in _collectionUpdate.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionFixedUpdate.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionLateUpdate.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionAltUpdateA.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionAltUpdateB.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionAltFixedUpdateA.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionAltFixedUpdateB.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionAltLateUpdateA.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionAltLateUpdateB.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionTenthSecond.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionHalfSecond.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionTenthSecond.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionTwoSeconds.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
+            foreach (Dictionary<int, List<ITickable>> group in _collectionFiveSeconds.Tickables)
+                if (group.TryGetValue(key, out var list)) return list;
 
             return null;
         }
 
         private static void ClearAllTickables()
         {
-            _tickablesUpdate.Clear();
-            _tickablesAltUpdateA.Clear();
-            _tickablesAltUpdateB.Clear();
-            _tickablesFixedUpdate.Clear();
-            _tickablesAltFixedUpdateA.Clear();
-            _tickablesAltFixedUpdateB.Clear();
-            _tickablesLateUpdate.Clear();
-            _tickablesAltLateUpdateA.Clear();
-            _tickablesAltLateUpdateB.Clear();
-            _tickablesTenthSecond.Reset();
-            _tickablesHalfSecond.Reset();
-            _tickablesFullSecond.Reset();
-            _tickablesTwoSeconds.Reset();
-            _tickablesFiveSeconds.Reset();
             _queueAdd.Clear();
             _queueRemove.Clear();
         }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using GalaxyGourd.Tick;
 using Stephens.Input;
-using Stephens.Tick;
 using UnityEngine;
 
 namespace Stephens.Camera
@@ -14,7 +14,7 @@ namespace Stephens.Camera
         [SerializeField] private Canvas _uiCanvas;
         [SerializeField] private UISimulatedPointer _simulatedPointer;
 
-        public override TickGroup TickGroup => TickGroup.UIUpdate;
+        public override int TickGroup => (int)TickGroups.UIUpdate;
         public UnityEngine.Camera Camera => _camera;
         public Canvas UICanvas => _uiCanvas;
         public UISimulatedPointer SimulatedPointer => _simulatedPointer;

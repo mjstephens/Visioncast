@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Stephens.Tick;
+using GalaxyGourd.Tick;
 using Stephens.Utility;
 using Unity.Burst;
 using Unity.Collections;
@@ -15,7 +15,7 @@ namespace Stephens.Sensors
     {
         #region VARIABLES
 
-        public override TickGroup TickGroup => TickGroup.PhysicsRaycast;
+        public override int TickGroup => (int)TickGroups.PhysicsRaycast;
 
         private NativeArray<RaycastCommand> _raycastCommands;
         private NativeArray<RaycastHit> _raycastHits;

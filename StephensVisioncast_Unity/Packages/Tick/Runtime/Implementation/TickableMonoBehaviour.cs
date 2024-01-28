@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Stephens.Tick
+namespace GalaxyGourd.Tick
 {
     /// <summary>
     /// Basic MonoBehaviour tickable implementation, eliminates boilerplate for simple tickables.
@@ -11,7 +11,7 @@ namespace Stephens.Tick
     {
         #region VARIABLES
 
-        public abstract TickGroup TickGroup { get; }
+        public abstract int TickGroup { get; }
 
         #endregion VARIABLES
 

@@ -1,5 +1,5 @@
 using System;
-using Stephens.Tick;
+using GalaxyGourd.Tick;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +13,7 @@ namespace Stephens.Input
     {
         #region VARIABLES
 
-        public TickGroup TickGroup => TickGroup.InputCollection;
+        public int TickGroup => (int)TickGroups.InputCollection;
         protected abstract string MapName { get; }
         protected abstract bool EnabledByDefault { get; }
         public Action<T> GetData;

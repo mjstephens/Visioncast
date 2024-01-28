@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Stephens.Tick;
+using GalaxyGourd.Tick;
 using Stephens.Utility;
 using UnityEngine;
 
 namespace Stephens.Sensors
 {
     [RequireComponent(typeof(IVisionSource))]
-    public sealed class DebugVisioncastSource : MonoBehaviour, ITickable
+    public sealed class DebugVisioncastSource : TickableMonoBehaviour
     {
         #region VARIABLES
 
@@ -18,7 +18,7 @@ namespace Stephens.Sensors
         [SerializeField] private bool _gizmos = true;
         [SerializeField] private bool _lineRenderers;
         
-        public TickGroup TickGroup => TickGroup.Debug;
+        public override int TickGroup => (int)TickGroups.Debug;
 
         private IVisionSource _source;        
         private ConeMesh _cone;
@@ -47,22 +47,12 @@ namespace Stephens.Sensors
             
         }
 
-        private void OnEnable()
-        {
-            TickRouter.Register(this);
-        }
-
-        private void OnDisable()
-        {
-            TickRouter.Unregister(this);
-        }
-
         #endregion INITIALIZATION
 
 
         #region TICK
 
-        void ITickable.Tick(float delta)
+        public override void Tick(float delta)
         {
             ClearLines();
 

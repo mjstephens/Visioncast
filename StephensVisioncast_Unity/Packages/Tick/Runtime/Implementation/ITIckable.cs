@@ -1,4 +1,4 @@
-namespace Stephens.Tick
+namespace GalaxyGourd.Tick
 {
     /// <summary>
     /// Default tickable interface. Inheritors who register or unregister with the TickRouter will be added to a queue, which will
@@ -9,7 +9,7 @@ namespace Stephens.Tick
     {
         #region PROPERTIES
 
-        TickGroup TickGroup { get; }
+        int TickGroup { get; }
 
         #endregion PROPERTIES
 

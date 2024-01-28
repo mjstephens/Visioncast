@@ -1,4 +1,4 @@
-using Stephens.Tick;
+using GalaxyGourd.Tick;
 using Stephens.Utility;
 using UnityEngine;
 
@@ -8,11 +8,11 @@ namespace Stephens.Sensors
     /// An object whose collider is exposed to the visioncast system, allowing it to be "seen" by game entities
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public class VisioncastObject : MonoBehaviour, IVisibleObject, ITickable
+    public class VisioncastObject : TickableMonoBehaviour, IVisibleObject
     {
         #region VARIABLES
         
-        public TickGroup TickGroup => TickGroup.VisibleObjectBoundsRefresh;
+        public override int TickGroup => (int)TickGroups.VisibleObjectBoundsRefresh;
         public virtual Vector3 Position => transform.position;
         public Collider Collider { get; protected set; }
         public bool IsValidForInteraction { get; private set; }
@@ -35,16 +35,6 @@ namespace Stephens.Sensors
             IsValidForInteraction = true;
             
             RecalculateVisiblePoints();
-        }
-
-        protected virtual void OnEnable()
-        {
-            TickRouter.Register(this);
-        }
-        
-        protected virtual void OnDisable()
-        {
-            TickRouter.Unregister(this);
         }
 
         protected virtual void OnDestroy()
@@ -79,7 +69,7 @@ namespace Stephens.Sensors
 
         #region TICK
 
-        void ITickable.Tick(float delta)
+        public override void Tick(float delta)
         {
             // We only need to recalculate collider bounds if the object has moved at all
             if (transform.hasChanged)

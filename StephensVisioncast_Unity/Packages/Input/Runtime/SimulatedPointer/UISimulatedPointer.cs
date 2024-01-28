@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Stephens.Tick;
+using GalaxyGourd.Tick;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -13,7 +13,7 @@ namespace Stephens.Input
     /// Specialized input listener that translates mouse or gamepad inputs to an on-screen pointer.
     /// </summary>
     [RequireComponent(typeof(RectTransform))]
-    public class UISimulatedPointer : MonoBehaviour, IInputPointer, ITickable
+    public class UISimulatedPointer : TickableMonoBehaviour, IInputPointer
     {
         #region VARIABLES
 
@@ -28,7 +28,7 @@ namespace Stephens.Input
         [SerializeField] private float _pointerSpeedMouseKB;
         [SerializeField] private float _pointerSpeedGamepad;
         
-        public TickGroup TickGroup => TickGroup.InputTransmission;
+        public override int TickGroup => (int)TickGroups.InputTransmission;
         public Vector3 Position => _pointer.position;
         public bool IsOverUI => _hoveredObjs.Count > 0;
         InputPointerType IInputPointer.Type => InputPointerType.Simulated;
@@ -96,14 +96,10 @@ namespace Stephens.Input
             }
         }
 
-        private void OnEnable()
+        protected override void OnDisable()
         {
-            TickRouter.Register(this);
-        }
-
-        private void OnDisable()
-        {
-            TickRouter.Unregister(this);
+            base.OnDisable();
+            
             if (_input)
             {
                 _input.onActionTriggered -= OnActionTriggered;
@@ -356,7 +352,7 @@ namespace Stephens.Input
 
         #region TRANSMIT
 
-        void ITickable.Tick(float delta)
+        public override void Tick(float delta)
         {
             foreach (IInputReceiver<DataInputValuesPointer> receiver in _receivers)
             {

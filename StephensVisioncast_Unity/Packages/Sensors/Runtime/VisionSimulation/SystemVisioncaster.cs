@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Stephens.Tick;
+using GalaxyGourd.Tick;
 using Stephens.Utility;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ namespace Stephens.Sensors
     {
         #region VARIABLES
 
-        public TickGroup TickGroup => TickGroup.VisionCaster; // 0.1 second intervals
+        public int TickGroup => (int)TickGroups.VisionCaster;
         
         // Scheduled raycaster items
         public List<RaycastHit> RaycasterResults { get; set; }
@@ -112,6 +112,7 @@ namespace Stephens.Sensors
             if (_waitingForRaycasts)
                 return;
             
+            Debug.Log("TICK");
             CalculateVisionBroadphase();
             ExecuteVisionNarrowphase();
             _raycaster.Schedule(this, RaycasterRequests);

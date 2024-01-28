@@ -1,12 +1,12 @@
 using System.Collections.Generic;
+using GalaxyGourd.Tick;
 using Stephens.Camera;
 using Stephens.Sensors;
-using Stephens.Tick;
 using UnityEngine;
 
 namespace Stephens.Player
 {
-    public class UIVisibleObjectOverlays : MonoBehaviour, IPlayerUI, ITickable
+    public class UIVisibleObjectOverlays : TickableMonoBehaviour, IPlayerUI
     {
         #region VARIABLES
 
@@ -15,7 +15,7 @@ namespace Stephens.Player
         [SerializeField] private RectTransform _markerParent;
         [SerializeField] private CanvasGroup _group;
         
-        public TickGroup TickGroup => TickGroup.UIUpdate;
+        public override int TickGroup => (int)TickGroups.UIUpdate;
         public UICamera UICamera { get; set; }
 
         private readonly List<UIVisibleObjectMarkerInstance> _markerPool = new();
@@ -33,22 +33,12 @@ namespace Stephens.Player
             _uiCamera = uiCamera;
         }
 
-        private void OnEnable()
-        {
-            TickRouter.Register(this);
-        }
-
-        private void OnDisable()
-        {
-            TickRouter.Unregister(this);
-        }
-
         #endregion INITIALIZATION
         
         
         #region TICK
         
-        void ITickable.Tick(float delta)
+        public override void Tick(float delta)
         {
             foreach (KeyValuePair<IVisibleObject, UIVisibleObjectMarkerInstance> obj in _visibleObjects)
             {

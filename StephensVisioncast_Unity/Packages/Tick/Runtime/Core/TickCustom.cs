@@ -1,35 +1,44 @@
-using System.Collections.Generic;
-
-namespace Stephens.Tick
+namespace GalaxyGourd.Tick
 {
-    internal class TickCustom
+    internal class TickCustom : TickCollection
     {
-        internal readonly float UpdateRate;
-        internal readonly Dictionary<TickGroup, List<ITickable>> Tickables;
-        internal float ElapsedSincePreviousUpdate;
+        #region VARIABLES
         
-        internal TickCustom(float updateRate)
+        private float _elapsedSincePreviousUpdate;
+
+        #endregion VARIABLES
+
+
+        #region CONSTRUCTION
+
+        internal TickCustom(int[] orderedGroups) : base(orderedGroups)
         {
-            UpdateRate = updateRate;
-            Tickables = new Dictionary<TickGroup, List<ITickable>>();
+            
         }
+
+        #endregion CONSTRUCTION
+
+
+        #region API
 
         internal void Reset()
         {
             Tickables.Clear();
-            ElapsedSincePreviousUpdate = 0;
+            _elapsedSincePreviousUpdate = 0;
         }
 
-        internal bool TickHasElapsed(float delta)
+        internal bool TickHasElapsed(float updateRate, float delta)
         {
-            ElapsedSincePreviousUpdate += delta;
-            if (ElapsedSincePreviousUpdate >= UpdateRate)
+            _elapsedSincePreviousUpdate += delta;
+            if (_elapsedSincePreviousUpdate >= updateRate)
             {
-                ElapsedSincePreviousUpdate -= UpdateRate;
+                _elapsedSincePreviousUpdate -= updateRate;
                 return true;
             }
             
             return false;
         }
+
+        #endregion API
     }
 }

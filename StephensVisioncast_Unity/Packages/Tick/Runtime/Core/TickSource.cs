@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Stephens.Tick
+namespace GalaxyGourd.Tick
 {
     /// <summary>
     /// Acts as the single source of update callbacks for the tick router. Auto-created at runtime.

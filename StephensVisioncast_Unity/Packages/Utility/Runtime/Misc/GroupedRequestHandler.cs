@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Stephens.Tick;
+using GalaxyGourd.Tick;
 
 namespace Stephens.Utility
 {
@@ -11,7 +11,7 @@ namespace Stephens.Utility
     {
         #region VARIABLES
         
-        public abstract TickGroup TickGroup { get; }
+        public abstract int TickGroup { get; }
 
         protected readonly List<TListener> _listeners = new List<TListener>();
         protected readonly List<TRequest> _requests = new List<TRequest>();
