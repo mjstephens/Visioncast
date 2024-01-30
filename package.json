@@ -1,0 +1,19 @@
+{
+  "name": "com.galaxygourd.visioncast",
+  "version": "1.0.0",
+  "displayName": "GourdVision",
+  "description": "Physics-based simulation of line of sight.",
+  "unity": "2019.4",
+  "author": {
+    "name": "Michael Stephens",
+    "email": "mstephens.dev@gmail.com",
+    "url" : "http://www.mstephensdev.com/"
+  },
+  "samples": [
+      {
+        "displayName": "Core",
+        "description": "Basic demo scene showing visioncast system in action. Includes examples of vision sources, visible objects, and line of sight visualization.",
+        "path": "Samples~/Core"
+      }
+    ]
+}
