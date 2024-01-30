@@ -15,7 +15,7 @@ namespace VisioncastSamples.Core
         internal List<VisioncastSource> Sources { get; private set; }
         
         private int _currentCameraMode = -1;
-        private bool _debugLoSToggle = true;
+        private bool _debugLoSToggle = false;
         private bool _debugConesToggle = true;
         
         #endregion VARIABLES

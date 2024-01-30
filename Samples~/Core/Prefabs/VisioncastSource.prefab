@@ -374,7 +374,7 @@ MonoBehaviour:
     type: 3}
   _visionCone: {fileID: 2788723575877541529}
   _gizmos: 0
-  _lineRenderers: 1
+  _lineRenderers: 0
 --- !u!1001 &1782588986604148242
 PrefabInstance:
   m_ObjectHideFlags: 0

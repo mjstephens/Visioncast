@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GalaxyGourd.Visioncast
+namespace GalaxyGourd.Visioncast 
 {
     /// <summary>
     /// Receives and resolves visioncast results into list of DataVisionSeenObject
