@@ -2,12 +2,14 @@
   "name": "com.galaxygourd.visioncast",
   "version": "1.0.0",
   "displayName": "GourdVision",
-  "description": "Physics-based simulation of line of sight.",
-  "unity": "2019.4",
+  "description": "Physics-based simulation of line of sight. Includes support for dynamic vision obstruction.",
   "author": {
     "name": "Michael Stephens",
     "email": "mstephens.dev@gmail.com",
-    "url" : "http://www.mstephensdev.com/"
+    "url" : "http://www.mstephensdev.com/" 
+  },
+  "dependencies": {
+    "com.unity.burst": "1.8.12"
   },
   "samples": [
       {
