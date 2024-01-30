@@ -1,26 +1,16 @@
-using System;
 using System.Collections.Generic;
 using GalaxyGourd.Visioncast;
 using UnityEngine;
 
 namespace VisioncastSamples.Core
 {
-    [Serializable]
-    internal struct CameraMode
-    {
-        public GameObject CameraObj;
-        public string Label;
-    }
-    
     public class VCSampleCore_Controller : MonoBehaviour
     {
         #region VARIABLES
 
         [Header("References")] 
         [SerializeField] private VCSampleCore_UIController _uiController;
-        [SerializeField] private GameObject _prefabTestVisionSource;
-        [SerializeField] private Transform _visionSourceSpawnerParent;
-        [SerializeField] private CameraMode[] _camModes;
+        [SerializeField] private VCSampleCore_CameraController _cameraController;
         
         internal List<VisioncastSource> Sources { get; private set; }
         
@@ -36,16 +26,6 @@ namespace VisioncastSamples.Core
         private void Awake()
         {
             VisioncastManager.OnSourceComponentsModified += OnVisionSourcesChanged;
-            
-            for (int i = 0; i < _visionSourceSpawnerParent.childCount; i++)
-            {
-                if (!_visionSourceSpawnerParent.GetChild(i).gameObject.activeInHierarchy)
-                    continue;
-                
-                Transform t = Instantiate(_prefabTestVisionSource, _visionSourceSpawnerParent.GetChild(i)).transform;
-                t.localPosition = Vector3.zero;                
-                t.localEulerAngles = Vector3.zero;                
-            }
 
             AdvanceCameraMode(1);
         }
@@ -57,20 +37,14 @@ namespace VisioncastSamples.Core
 
         internal string AdvanceCameraMode(int advance)
         {
-            // Disable all
-            foreach (CameraMode mode in _camModes)
-            {
-                mode.CameraObj.SetActive(false);
-            }
-            
             _currentCameraMode += advance;
             if (_currentCameraMode < 0)
-                _currentCameraMode = _camModes.Length - 1;
-            else if (_currentCameraMode >= _camModes.Length)
+                _currentCameraMode = _cameraController.Modes.Length - 1;
+            else if (_currentCameraMode >= _cameraController.Modes.Length)
                 _currentCameraMode = 0;
             
-            _camModes[_currentCameraMode].CameraObj.SetActive(true);
-            return _camModes[_currentCameraMode].Label;
+            _cameraController.SetActiveMode(_currentCameraMode);
+            return _cameraController.Modes[_currentCameraMode].Label;
         }
 
         internal bool ToggleLoSDebugLines()
