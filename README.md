@@ -33,7 +33,7 @@ The base vision component that exposes the object to the visioncast system. Crea
 The base interface that allows an object to be "seen" by the visioncast system. Implementations must define an array of _VisiblePoints_ on the object which will be raycasted against when determining whether or not the object is obstructed. Define your own implementation to manually set these points however you wish, or use/override the included **VisionTarget** class, which automatically creates visible points around the object's collider. It's important that whatever you use, your visible points are distributed such that if the object is "poking out" from behind a wall, it will still count as visible. (Of course you can define visible points however you need for your project's use case).
 
 ![Screenshot 2024-02-02 at 10 17 57 AM](https://github.com/mjstephens/Visioncast/assets/4731148/4a93882b-79f3-46ed-90dc-7f96afbe1a01)
-_An example distribtion of visible points (red spheres) for an irregularly-shaped object. Visible points define the raycast targets for the visiocast narrowphase, so we want to make sure all major object edges are covered._
+_An example distribtion of visible points (red spheres) for an irregularly-shaped object. Visible points define the raycast targets for the visioncast narrowphase, so we want to make sure all major object edges or pointy bits are covered._
 
 
 ## Samples
