@@ -4,6 +4,8 @@ Line of sight simulation package for Unity. **Vision sources** will collect **vi
 
 **WebGL demo** available here: https://mjstephens.github.io/VisioncastBuild/
 
+*Package includes local copy of the Habrador Computational Geo Library - used for generating vision cone meshes (https://github.com/Habrador/Computational-geometry)
+
 ![Screenshot 2024-02-02 at 10 07 54 AM](https://github.com/mjstephens/Visioncast/assets/4731148/df78fd9f-9168-4c5a-8d8e-cf4de3568471)
 
 
