@@ -2,6 +2,8 @@
 
 Line of sight simulation package for Unity. **Vision sources** will collect **vision targets** within their sight range, then raycast to determine if the object is obstructed or visible. Use this data to simulate NPCs seeing important objects, security cameras, etc.
 
+**WebGL demo** available here: https://mjstephens.github.io/VisioncastBuild/
+
 ![Screenshot 2024-02-02 at 10 07 54 AM](https://github.com/mjstephens/Visioncast/assets/4731148/df78fd9f-9168-4c5a-8d8e-cf4de3568471)
 
 
