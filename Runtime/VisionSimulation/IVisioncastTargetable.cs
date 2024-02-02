@@ -5,7 +5,7 @@ namespace GalaxyGourd.Visioncast
     /// <summary>
     /// Describes an object that is exposed as "visible" to the visioncast system.
     /// </summary>
-    public interface IVisioncastVisible
+    public interface IVisioncastTargetable
     {
         #region PROPERTIES
 

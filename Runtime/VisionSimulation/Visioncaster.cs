@@ -17,7 +17,7 @@ namespace GalaxyGourd.Visioncast
         public List<DataScheduledRaycastRequest> RaycasterRequests { get; set; }
         
         // Aligned buffers
-        private static readonly List<List<IVisioncastVisible>> _visibleObjects = new();
+        private static readonly List<List<IVisioncastTargetable>> _visibleObjects = new();
         // item1 = index of _visibleObjects object to which points belong
         private static readonly List<List<List<Vector3>>> _visibleObjectPoints = new();
         private static readonly List<List<float>> _visibleObjectDistances = new();
@@ -126,13 +126,13 @@ namespace GalaxyGourd.Visioncast
             for (int i = 0; i < _components.Count; i++)
             {
                 VisioncastSource source = _components[i];
-                _visibleObjects.Add(new List<IVisioncastVisible>());
+                _visibleObjects.Add(new List<IVisioncastTargetable>());
                 _visibleObjectPoints.Add(new List<List<Vector3>>());
                 _visibleObjectDistances.Add(new List<float>());
                 _visibleObjectAngles.Add(new List<float>());
                 _visioncastResults.Add(new DataVisioncastResult
                 {
-                    Objects = new List<IVisioncastVisible>(),
+                    Objects = new List<IVisioncastTargetable>(),
                     VisiblePoints = new List<List<Vector3>>(12),
                     Distances = new List<float>(),
                     Angles = new List<float>()
@@ -157,7 +157,7 @@ namespace GalaxyGourd.Visioncast
                         float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
                         float objDistance = Vector3.Distance(closestPoint, source.Position);
                         
-                        if (angle <= source.FieldOfView && hit.TryGetComponent(out IVisioncastVisible visibleObject))
+                        if (angle <= source.FieldOfView && hit.TryGetComponent(out IVisioncastTargetable visibleObject))
                         {
                             _visibleObjects[i].Add(visibleObject);
                             List<Vector3> objectPoints = new List<Vector3>(7) { closestPoint };
@@ -220,7 +220,7 @@ namespace GalaxyGourd.Visioncast
                 Tuple<int, int, int> map = _raycastRequestMap[i];
                 
                 DataVisioncastResult result = _visioncastResults[map.Item1];
-                IVisioncastVisible thisObject = _visibleObjects[map.Item1][map.Item2];
+                IVisioncastTargetable thisObject = _visibleObjects[map.Item1][map.Item2];
                 Vector3 thisPoint = _visibleObjectPoints[map.Item1][map.Item2][map.Item3];
 
                 // Add object to source results if not present

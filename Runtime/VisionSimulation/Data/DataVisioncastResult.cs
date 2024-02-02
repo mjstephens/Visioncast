@@ -8,7 +8,7 @@ namespace GalaxyGourd.Visioncast
     /// </summary>
     public struct DataVisioncastResult
     {
-        public List<IVisioncastVisible> Objects;
+        public List<IVisioncastTargetable> Objects;
         public List<List<Vector3>> VisiblePoints;
         public List<float> Distances;
         public List<float> Angles;

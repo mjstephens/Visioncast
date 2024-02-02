@@ -6,7 +6,7 @@ namespace GalaxyGourd.Visioncast
     /// An object whose collider is exposed to the visioncast system, allowing it to be "seen" by game entities
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public class VisibleObject : MonoBehaviour, IVisioncastVisible
+    public class VisionTarget : MonoBehaviour, IVisioncastTargetable
     {
         #region VARIABLES
         

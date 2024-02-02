@@ -25,15 +25,15 @@ namespace GalaxyGourd.Visioncast
         /// <summary>
         /// The object most directly in the center of the source's field of view
         /// </summary>
-        protected IVisioncastVisible _keyObject;
+        protected IVisioncastTargetable _keyObject;
         /// <summary>
         /// A list of objects that were newly seen since the most recent visioncast update 
         /// </summary>
-        protected readonly List<IVisioncastVisible> _newlySeenObjects = new();
+        protected readonly List<IVisioncastTargetable> _newlySeenObjects = new();
         /// <summary>
         /// A list of objects that were newly un-seen since the most recent visioncast update
         /// </summary>
-        protected readonly List<IVisioncastVisible> _newlyLostObjects = new();
+        protected readonly List<IVisioncastTargetable> _newlyLostObjects = new();
 
         #endregion VARIABLES
         
@@ -55,7 +55,7 @@ namespace GalaxyGourd.Visioncast
             }
             
             // Resolve seen objects into workable data
-            List<DataVisionSeenObject> newResults = VisioncastResultsResolver.Resolve<IVisioncastVisible>(
+            List<DataVisionSeenObject> newResults = VisioncastResultsResolver.Resolve<IVisioncastTargetable>(
                 data, 
                 _filteredVisionObjects);
             _newlySeenObjects.Clear();

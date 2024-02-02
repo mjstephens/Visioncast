@@ -12,7 +12,7 @@ namespace GalaxyGourd.Visioncast
         public static List<DataVisionSeenObject> Resolve<T>(
             DataVisioncastResult visioncast, 
             List<DataVisionSeenObject> previous) 
-            where T : IVisioncastVisible
+            where T : IVisioncastTargetable
         {
             List<DataVisionSeenObject> resolved = new();
             
@@ -55,7 +55,7 @@ namespace GalaxyGourd.Visioncast
             return resolved;
         }
 
-        public static bool DataSeenContainsObject(List<DataVisionSeenObject> data, IVisioncastVisible visibleObject)
+        public static bool DataSeenContainsObject(List<DataVisionSeenObject> data, IVisioncastTargetable visibleObject)
         {
             foreach (DataVisionSeenObject item in data)
             {
@@ -66,7 +66,7 @@ namespace GalaxyGourd.Visioncast
             return false;
         }
 
-        private static DataVisionSeenObject? GetSeenDataForObject(List<DataVisionSeenObject> data, IVisioncastVisible obj)
+        private static DataVisionSeenObject? GetSeenDataForObject(List<DataVisionSeenObject> data, IVisioncastTargetable obj)
         {
             foreach (DataVisionSeenObject item in data)
             {

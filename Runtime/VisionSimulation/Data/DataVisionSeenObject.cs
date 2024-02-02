@@ -5,7 +5,7 @@ namespace GalaxyGourd.Visioncast
     /// </summary>
     public struct DataVisionSeenObject
     {
-        public IVisioncastVisible ResultObject;
+        public IVisioncastTargetable ResultObject;
         public bool IsVisible;
         public bool JustBecameVisible;
         public float Distance;
